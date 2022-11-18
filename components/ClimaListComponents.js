@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { FAB } from '@rneui/themed'
 import { LinearProgress, ListItem } from '@rneui/themed'
-import * as pessoaService from '../service/PessoaService'
+import * as climaService from '../service/ClimaService'
 
 
-const ListaPessoaComponent = ({ navigation }) => {
+const ClimaListComponent = ({ navigation }) => {
     const updateList = async () => {
         const compareFn = (a, b) => {
             return a.nome > b.nome ? 1 : a.nome < b.nome ? -1 : 0
         }
-        setPessoas((await pessoaService.obterLista()).data.items.sort(compareFn))
+        setPessoas((await climaService.obterLista()).data.sort(compareFn))
     }
     const onRefresh = async () => {
         setRefreshing(true)
@@ -41,8 +41,8 @@ const ListaPessoaComponent = ({ navigation }) => {
                                 <ListItem
                                     bottomDivider>
                                     <ListItem.Content>
-                                        <ListItem.Title>{pessoa.item.nome}</ListItem.Title>
-                                        <ListItem.Subtitle>{pessoa.item.hobby}</ListItem.Subtitle>
+                                        <ListItem.Title>{pessoa.name}</ListItem.Title>
+                                        <ListItem.Subtitle>{pessoa.weather.main}</ListItem.Subtitle>
                                     </ListItem.Content>
                                     {/* pronúncia: chévron. tradução: divisa */}
                                     <ListItem.Chevron />
@@ -56,16 +56,12 @@ const ListaPessoaComponent = ({ navigation }) => {
                     <LinearProgress />
             }
             
-                <FAB
-                    icon={{ color: 'white', name: "add" }}
-                    placement='right'
-                    onPress={() => { navigation.navigate('PessoaAdd', { onGoBack: updateList }) }}
-                />
+
             
         </View>
     )
 }
-export default ListaPessoaComponent
+export default ClimaListComponent
 
 
 
